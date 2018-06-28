@@ -918,7 +918,7 @@ ER_CON_COUNT_ERROR 08004
         cze "Příliš mnoho spojení"
         dan "For mange forbindelser (connections)"
         nla "Te veel verbindingen"
-        eng "Too many connections, please consider upgrade your KuaiyunCloudDB configuration to increase max_connections allowed."
+        eng "Too many connections, please consider upgrade your KuaiyunCloudDB configuration to increase max_connections allowed. "
         est "Liiga palju samaaegseid ühendusi"
         fre "Trop de connexions"
         ger "Zu viele Verbindungen"
