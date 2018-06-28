@@ -11927,14 +11927,18 @@ acl_authenticate(THD *thd, uint com_change_user_pkt_len)
               thd->password ? "yes": "no",
               sctx->master_access, mpvio.db.str));
 
+  DBUG_PRINT("info", ("acl_authenticate, user = %s, command = %d, ignore_super_connections=%d, main_security_ctx.master_access has super privileges %ld", thd->main_security_ctx.user, command, ignore_super_connections, ((thd->main_security_ctx.master_access & SUPER_ACL) || (thd->main_security_ctx.master_access & GRANT_ACL) || (thd->main_security_ctx.master_access & SHUTDOWN_ACL)) ? 1L : 0L));
+
   if (command == COM_CONNECT &&
-      !(thd->main_security_ctx.master_access & SUPER_ACL))
+      ! (ignore_super_connections == TRUE && ((thd->main_security_ctx.master_access & SUPER_ACL) || (thd->main_security_ctx.master_access & GRANT_ACL) || (thd->main_security_ctx.master_access & SHUTDOWN_ACL))))
   {
     mysql_mutex_lock(&LOCK_connection_count);
     bool count_ok= (connection_count <= max_connections);
     mysql_mutex_unlock(&LOCK_connection_count);
     if (!count_ok)
     {                                         // too many connections
+	  DBUG_PRINT("error", ("Too many connections, user = %s, command = %d, ignore_super_connections=%d, main_security_ctx.master_access has pri %ld", thd->main_security_ctx.user, command, ignore_super_connections, (thd->main_security_ctx.master_access & SUPER_ACL)));
+
       release_user_connection(thd);
       statistic_increment(connection_errors_max_connection, &LOCK_status);
       my_error(ER_CON_COUNT_ERROR, MYF(0));

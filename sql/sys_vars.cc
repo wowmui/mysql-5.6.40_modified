@@ -1764,6 +1764,13 @@ static bool fix_max_connections(sys_var *self, THD *thd, enum_var_type type)
   return false;
 }
 
+//忽略超级用户(拥有GRANT权限)的连接数
+static Sys_var_mybool Sys_ignore_super_connections(
+	"ignore_super_connections",
+	"The super admin user (who with the GRANT privilege) dont't sum in connections, "
+	"insure the management operation executed by super admin user always succeed.",
+	GLOBAL_VAR(ignore_super_connections), CMD_LINE(OPT_ARG), DEFAULT(FALSE));
+
 static Sys_var_ulong Sys_max_connections(
        "max_connections", "The number of simultaneous clients allowed",
        GLOBAL_VAR(max_connections), CMD_LINE(REQUIRED_ARG),

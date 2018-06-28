@@ -467,6 +467,7 @@ my_bool lower_case_file_system= 0;
 my_bool opt_large_pages= 0;
 my_bool opt_super_large_pages= 0;
 my_bool opt_myisam_use_mmap= 0;
+my_bool ignore_super_connections= 0;	//Ignore the user's connections who has the grant options privilege.
 uint   opt_large_page_size= 0;
 #if defined(ENABLED_DEBUG_SYNC)
 MYSQL_PLUGIN_IMPORT uint    opt_debug_sync_timeout= 0;
@@ -6174,16 +6175,17 @@ static void create_new_thread(THD *thd)
 
   /*
     Don't allow too many connections. We roughly check here that we allow
-    only (max_connections + 1) connections.
+    only (max_connections + reservecon) connections.
   */
 
   mysql_mutex_lock(&LOCK_connection_count);
-
-  if (connection_count >= max_connections + 1 || abort_loop)
+  ulong reservecon;
+  (ignore_super_connections == FALSE) ? reservecon = 1 : reservecon = 10;
+  if ((connection_count >= max_connections + reservecon) || abort_loop)
   {
     mysql_mutex_unlock(&LOCK_connection_count);
 
-    DBUG_PRINT("error",("Too many connections"));
+	DBUG_PRINT("error", ("Too many connections, ignore_super_connections=%d, current connections = %d", ignore_super_connections, connection_count));
     /*
       The server just accepted the socket connection from the network,
       and we already have too many connections.
