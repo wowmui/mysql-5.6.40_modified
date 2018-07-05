@@ -3899,6 +3899,14 @@ end_with_restore_list:
   }
   case SQLCOM_DROP_DB:
   {
+	if (!(check_global_access(thd, SUPER_ACL)))
+	{
+	  my_error(ER_DBACCESS_DENIED_ERROR, MYF(0),
+		  thd->security_ctx->priv_user,
+		  thd->security_ctx->priv_host,
+		  lex->name.str);
+	  break;
+	}
     if (check_and_convert_db_name(&lex->name, FALSE) != IDENT_NAME_OK)
       break;
     /*

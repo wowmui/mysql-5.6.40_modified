@@ -918,7 +918,7 @@ ER_CON_COUNT_ERROR 08004
         cze "Příliš mnoho spojení"
         dan "For mange forbindelser (connections)"
         nla "Te veel verbindingen"
-        eng "Too many connections, please consider upgrade your KuaiyunCloudDB configuration to increase max_connections allowed."
+        eng "Too many connections, please consider upgrade your KuaiyunCloudDB configuration to increase max_connections allowed. https://www.kuaiyun.cn/document/productdetail?sid=12&id=175&cid=4"
         est "Liiga palju samaaegseid ühendusi"
         fre "Trop de connexions"
         ger "Zu viele Verbindungen"
@@ -4310,7 +4310,7 @@ ER_SLAVE_THREAD
 ER_TOO_MANY_USER_CONNECTIONS 42000 
         dan "Brugeren %-.64s har allerede mere end 'max_user_connections' aktive forbindelser"
         nla "Gebruiker %-.64s heeft reeds meer dan 'max_user_connections' actieve verbindingen"
-        eng "User %-.64s already has more than 'max_user_connections' active connections"
+        eng "User %-.64s already has more than 'max_user_connections' active connections, please consider upgrade to exclusive KuaiyunCloudDB or increase max connections value. https://www.kuaiyun.cn/document/productdetail?sid=12&id=175&cid=4"
         est "Kasutajal %-.64s on juba rohkem ühendusi kui lubatud 'max_user_connections' muutujaga"
         fre "L'utilisateur %-.64s possède déjà plus de 'max_user_connections' connexions actives"
         ger "Benutzer '%-.64s' hat mehr als 'max_user_connections' aktive Verbindungen"

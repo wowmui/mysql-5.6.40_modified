@@ -1764,7 +1764,7 @@ static bool fix_max_connections(sys_var *self, THD *thd, enum_var_type type)
   return false;
 }
 
-//忽略超级用户(拥有GRANT权限)的连接数
+//忽略超级用户(拥有SUPER/GRANT/SHUTDOWN)权限的用户的连接
 static Sys_var_mybool Sys_ignore_super_connections(
 	"ignore_super_connections",
 	"The super admin user (who with the GRANT privilege) dont't sum in connections, "
