@@ -2943,7 +2943,7 @@ case SQLCOM_PREPARE:
 	if (forbidden_mem_se == TRUE &&
 		create_info.db_type->db_type == DB_TYPE_HEAP &&
 		create_info.db_type->state == SHOW_OPTION_YES &&
-		!ha_check_storage_engine_flag(create_info.db_type, HTON_CAN_RECREATE))
+		ha_check_storage_engine_flag(create_info.db_type, HTON_CAN_RECREATE))
 	  create_info.db_type= ha_default_handlerton(thd);
 
     /*
