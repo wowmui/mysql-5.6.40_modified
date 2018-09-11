@@ -8159,7 +8159,12 @@ bool mysql_alter_table(THD *thd,char *new_db, char *new_name,
              ha_resolve_storage_engine_name(table->s->db_type()),
              ha_resolve_storage_engine_name(create_info->db_type)));
   if (ha_check_storage_engine_flag(table->s->db_type(), HTON_ALTER_NOT_SUPPORTED) ||
-      ha_check_storage_engine_flag(create_info->db_type, HTON_ALTER_NOT_SUPPORTED))
+      ha_check_storage_engine_flag(create_info->db_type, HTON_ALTER_NOT_SUPPORTED)||
+	  (forbidden_mem_se == TRUE &&
+		  create_info->db_type->db_type == DB_TYPE_HEAP &&
+		  create_info->db_type->state == SHOW_OPTION_YES &&
+		  !ha_check_storage_engine_flag(create_info->db_type, HTON_CAN_RECREATE))
+	  )
   {
     DBUG_PRINT("info", ("doesn't support alter"));
     my_error(ER_ILLEGAL_HA, MYF(0), table_list->table_name);

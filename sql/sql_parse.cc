@@ -2936,6 +2936,16 @@ case SQLCOM_PREPARE:
     if (!(create_info.used_fields & HA_CREATE_USED_ENGINE))
       create_info.db_type= create_info.options & HA_LEX_CREATE_TMP_TABLE ?
               ha_default_temp_handlerton(thd) : ha_default_handlerton(thd);
+
+	/*
+	  forbidden memory engine use.
+	*/
+	if (forbidden_mem_se == TRUE &&
+		create_info.db_type->db_type == DB_TYPE_HEAP &&
+		create_info.db_type->state == SHOW_OPTION_YES &&
+		!ha_check_storage_engine_flag(create_info.db_type, HTON_CAN_RECREATE))
+	  create_info.db_type= ha_default_handlerton(thd);
+
     /*
       If we are using SET CHARSET without DEFAULT, add an implicit
       DEFAULT to not confuse old users. (This may change).

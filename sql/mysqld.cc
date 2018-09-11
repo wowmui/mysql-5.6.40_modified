@@ -468,6 +468,7 @@ my_bool opt_large_pages= 0;
 my_bool opt_super_large_pages= 0;
 my_bool opt_myisam_use_mmap= 0;
 my_bool ignore_super_connections= 0;	//Ignore the user's connections who has the grant options privilege.
+my_bool forbidden_mem_se = 0;			//Custom forbidden MEMORY storage engine for good.
 uint   opt_large_page_size= 0;
 #if defined(ENABLED_DEBUG_SYNC)
 MYSQL_PLUGIN_IMPORT uint    opt_debug_sync_timeout= 0;

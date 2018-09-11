@@ -1771,6 +1771,14 @@ static Sys_var_mybool Sys_ignore_super_connections(
 	"insure the management operation executed by super admin user always succeed.",
 	GLOBAL_VAR(ignore_super_connections), CMD_LINE(OPT_ARG), DEFAULT(FALSE));
 
+//Custom forbidden "MEMORY" storage engine use for good.
+static Sys_var_mybool Sys_forbidden_mem_se(
+	"forbidden_mem_se",
+	"Forbidden MEMEORY storage engin table CREATE/ALTER, "
+	"insure the replication process not encounter 1032/1062 SQL error by restarted "
+	"master server's binlog.",
+	GLOBAL_VAR(forbidden_mem_se), CMD_LINE(OPT_ARG), DEFAULT(TRUE));
+
 static Sys_var_ulong Sys_max_connections(
        "max_connections", "The number of simultaneous clients allowed",
        GLOBAL_VAR(max_connections), CMD_LINE(REQUIRED_ARG),
